@@ -16,4 +16,13 @@ contract InsecureVault {
         require(balances[msg.sender] >= amount, "Insufficient balance");
         
         (bool success, ) = msg.sender.call{value: amount}("");
-        require(success, "Tra
+        require(success, "Transfer failed");
+        
+        balances[msg.sender] -= amount;
+        emit Withdrawal(msg.sender, amount);
+    }
+
+    function getBalance() external view returns (uint256) {
+        return balances[msg.sender];
+    }
+}
